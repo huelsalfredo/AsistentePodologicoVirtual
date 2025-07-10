@@ -1,0 +1,39 @@
+    .fc-time-grid .fc-slats td {
+      height: 2.5em !important; /* Altura de las celdas horarias */
+    }
+    .color01 {
+      background-color: rgb(242, 247, 248);
+    }
+    .color02 {
+      background-color: rgb(221, 244, 248);
+    }
+    .color03 {
+      background-color: rgb(248, 241, 204);
+    }
+    .form-check-input {
+      box-shadow: 0 0 0 2px black;      /* crea un borde negro alrededor del checkbox */
+      border: none;                   /* quita el borde nativo para que no interfiera */
+    }
+    .subir-calendario {
+      position: relative;
+      top: -80px;    }
+    body {
+      background-image: url(../Imagenes/asistencia.png);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;      
+    }
+    .fondo {
+      background-image: url(../Imagenes/asistencia.png);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    .fc-center h2 {
+      padding-top: 15px;
+    }
+    #alertaModal {
+      z-index: 99999 !important;
+    }

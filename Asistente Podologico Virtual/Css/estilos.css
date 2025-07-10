@@ -1,0 +1,367 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: sans-serif;
+}
+
+body {
+    background-image: url(../Imagenes/asistencia.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+main {
+    width: 100%;
+    padding: 20px;
+    margin: auto;
+    margin-top: 70px; /* posicion del cuadro azul*/
+}
+
+.contenedor__todo {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    position: relative;
+}
+
+.caja__trasera {
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    background-color: rgba(0,128,255,0.671); /* para verde  rgba(6, 68, 25, 0.671)*/
+}
+
+.caja__trasera div {
+    margin: 100px 40px;
+    color: white;
+    transition: all 500ms;
+}
+
+.caja__trasera p, 
+.caja__trasera button {
+    margin-top: 30px;
+}
+
+.caja__trasera div h3 {
+    font-weight: 400;
+    font-size: 26px;
+}
+
+.caja__trasera button {
+    padding: 10px 40px;
+    border: 2px solid white;
+    background: transparent;
+    font-size: 14px;    
+    font-weight: 600;
+    cursor: pointer;
+    color: white;
+    outline: none;
+    transition: all 300ms;
+}
+
+.caja__trasera button:hover {
+    background: white;
+    color: #46a2fd;    
+}
+
+.navbar-custom {
+    background-color: rgba(30, 55, 153, 0.671) !important;  /* para verde  rgba(6, 68, 25, 0.671)*/
+}
+
+.navbar-custom .nav-link {
+    color: cyan ; /* Para verde fluo rgb(57, 255, 20) */
+}
+
+/* Evitar que se pueda hacer clic en todos los enlaces excepto en cerrarSesión */
+.navbar-nav .nav-link {
+    pointer-events: none; /* Deshabilita los clics */
+    color: #6c757d; /* Cambia el color para diferenciar los enlaces deshabilitados */
+}
+
+.navbar-nav .nav-item:hover .nav-link {
+    color: #fff; /* Color al pasar el cursor */
+}
+
+.navbar-nav .nav-item.dropdown:hover .dropdown-menu {
+    display: block; /* Muestra el menú desplegable al hacer hover */
+}
+
+/* Activa cerrarSesión */
+.navbar-nav .nav-link[href="cerrarSesion.php"] {
+    pointer-events: auto;
+    color: rgb(187, 255, 0);
+}
+
+.navbar-nav .nav-link[href="cerrarSesion.php"]:hover {
+    color: white; /* Color al pasar el cursor */
+}
+
+/* Mostrar el submenú automáticamente al pasar el mouse */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.turnos {
+    margin-top: 80px; /* Espacio entre el encabezado y el contenido */
+}
+
+nav {
+    background-color: rgba(30, 55, 153, 0.671); /* Azul oscuro  -  para verde  rgba(6, 68, 25, 0.671)*/
+    padding: 10px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.nav-item {
+    text-decoration: none;
+    margin-left: 16px;
+}
+
+.nav-item:hover {
+    color: white;
+}
+
+.fs-8 {
+    font-size: 12.5px;
+}
+
+.nav-item {
+    color: cyan; /* Para verde fluo rgb(57, 255, 20) */
+}
+
+a.dropdown-item:hover {
+    background: rgba(30, 55, 153, 0.671);
+    color: white;
+}
+
+a.nav-item:hover { /* define el color a Paciente*/
+    color: white;
+}
+
+a.nav-link.dropdown-toggle {
+    color: cyan ; /* Para verde fluo rgb(57, 255, 20) */
+}
+
+a.nav-link.dropdown-toggle.show {
+    color: white ;
+}
+
+.navbar-custom .nav-usuario { /* define el color a Paciente/Administrador */
+    color:rgb(251, 255, 0) !important;
+}
+
+button[type="submit"]:hover {
+   /* background-color: rgb(6, 146, 146)!important;*/
+    transition: all 300ms;
+    background: transparent;
+    color: #46a2fd;
+    cursor: pointer;
+    outline: auto;
+    border-color: #46a2fd;
+}
+
+.input-contenedor-pass {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espacio entre el input y el checkbox */
+}
+
+input[type="password"] {
+    padding: 10px;
+    font-size: 14px;
+    flex: 1; /* Hace que el input ocupe el ancho disponible */
+}
+
+.error-message {
+    color: white;
+}
+
+.center-button {
+    text-align: center; /* Centra el texto del botón */
+}
+
+.boton {
+    display: inline-block;
+    background-color: #0927d1; /* Color de fondo del botón */
+    color: #fff; /* Color del texto */
+    padding: 10px 20px; /* Espacio interno del botón */
+    text-decoration: none; /* Elimina el subrayado del enlace */
+    border-radius: 5px; /* Bordes redondeados */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+    transition: background-color 0.3s; /* Transición suave al cambiar el color de fondo */
+    margin-top: 1rem; /* Separa el botón */
+}
+
+input:hover {
+    background-color: rgb(206, 240, 240)!important;
+    color: blue;
+    font-weight: bold;
+}
+
+
+/************* Formularios ***************/
+.contenedor__loguear-registrar {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 380px;
+    position: relative;
+    top: -185px;
+    left: 10px;
+}
+
+.contenedor__loguear-registrar form h2 {
+    font-size: 25px; /*30px*/
+    text-align: center;
+    margin-bottom: 20px;
+    color: #46a2fd;
+}
+
+.contenedor__loguear-registrar form input {
+    width: 100%;
+    margin-top: 10px;  /* 20px*/
+    padding: 9px; /*10px*/
+    border: none;
+    background: #f2f2f2;
+    font-size: 14px; /*16px*/
+    outline: none;
+}
+
+.contenedor__loguear-registrar form button {
+    padding: 10px 40px;
+    margin-top: 40px;
+    border: none;
+    font-size: 14px;
+    background: #46a2fd;
+    color: white;
+    cursor: pointer;
+    outline: none;
+}
+
+.formulario__loguear {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    padding: 80px 20px;
+    background: white;
+    position: absolute;
+    border-radius: 20px    
+}
+
+.formulario__registrar {
+    display: none;
+    width: 100%;
+    padding: 25px 20px;  /* altura del Registrarse */
+    background: white;
+    position: absolute;
+    border-radius: 20px;    
+}
+
+/********* hacer responsive ***********/
+@media screen and (max-width:850px) {
+    main {
+        margin-top: 50px;
+    }
+
+    .caja__trasera {
+        max-width: 350px;
+        height: 300px;
+        flex-direction: column;
+        margin: auto;
+    }
+    
+    .caja__trasera div {
+        margin: 0px;
+        position: absolute;
+    }
+
+    .contenedor__loguear-registrar {
+        top: -10px;
+        left: -5px;
+        margin: auto;
+    }
+
+    .contenedor__loguear-registrar form {
+        position: relative;
+    }
+}
+
+    /* Personalización de la superposición del modal con imagen de fondo */
+    .modal-backdrop.show {
+        background-image: url('../Imagenes/asistencia.png');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.8; /* Ajusta la opacidad si deseas ver mejor el fondo */
+    }
+
+/******************************************************************************************/
+
+.nav-container {
+    padding-top: 18px;
+    padding-bottom: 19px;
+    padding-right: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.center-button {
+    text-align: center; /* Centra el texto del botón */
+}
+
+.boton:hover {
+    background-color: #2980b9; /* Color de fondo del botón al pasar el ratón */
+}
+
+.row {
+    display: flex;
+}
+
+.container {
+    margin-top: 5rem;
+    margin-bottom: 6rem;
+    text-align: center;
+    background-color: rgba(105, 138, 167, 0.5);
+    max-width : 80% ;
+}
+
+.container h1 {
+    color: blue;
+    padding-top: 20px;
+    font-weight: bold;
+}
+
+.container h2 {
+    color:blue;
+    padding-bottom: 20px;
+}
+
+.container h5 {
+    color:blue;
+    padding: 30px;
+}
+
+.turnos {
+    margin-top: 80px; /* Espacio entre el encabezado y el contenido */
+}
+
+.input-submit {
+    background-color: blue; 
+    color: white;
+    border-radius: 5px;
+    padding-left: 20px; /* Color de fondo de los botones input-submit*/
+    padding-right: 20px;
+}
+
