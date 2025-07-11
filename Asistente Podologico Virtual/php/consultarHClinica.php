@@ -13,7 +13,7 @@ if (!$idPaciente) {
 
 try {
 $query = "SELECT t.start, hc.notas, hc.tratamiento, p.nombres, p.apellido, p.dni
-          FROM HistoriaClinica hc
+          FROM historiaclinica hc
           INNER JOIN turno t ON hc.id_turno = t.idTurno
           INNER JOIN paciente p ON hc.id_paciente = p.idPaciente
           WHERE hc.id_paciente = :idPaciente
@@ -25,10 +25,12 @@ $query = "SELECT t.start, hc.notas, hc.tratamiento, p.nombres, p.apellido, p.dni
     $stmt->bindParam(':idPaciente', $idPaciente, PDO::PARAM_INT);
     $stmt->execute();
     $historiasClinicas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+    
     if (empty($historiasClinicas)) {
-        echo '<script src="../js/alerta.js"></script>;
-              <script>alerta("No se encontraron historias clínicas para este paciente.","pantalla_administrador.php");</script>';
+        echo '<script src="../js/alerta.js"></script>';
+        echo '<script>';
+        echo 'alerta("No se encontraron historias clínicas para este paciente.", "pantalla_administrador.php");';
+        echo '</script>';
         exit;
     }
 
@@ -37,8 +39,11 @@ $query = "SELECT t.start, hc.notas, hc.tratamiento, p.nombres, p.apellido, p.dni
     $dniPaciente = $historiasClinicas[0]['dni'];
 
 } catch (Exception $e) {    
-        echo '<script src="../js/alerta.js"></script>;
-              <script>alerta("Error: " . htmlspecialchars($e->getMessage()) . "","pantalla_administrador.php");</script>';
+
+        echo '<script src="../js/alerta.js"></script>';
+        echo '<script>';
+        echo 'alerta("Error: ' . htmlspecialchars($e->getMessage()) . '", "pantalla_administrador.php");';
+        echo '</script>';
         exit;
 }
 ?>
