@@ -75,9 +75,17 @@ function BuscarPacientes(onPacienteSeleccionado) {
                 modal.hide();
 
                 setTimeout(() => {
-                  if (confirm(`\nSeleccionaste: \n\n${paciente.nombres} ${paciente.apellido} \nDNI: ${paciente.dni} - ✉️ ${paciente.email}\n`)) {
-                    onPacienteSeleccionado(paciente.idPaciente, paciente);
-                  }
+
+                  const texto = `<strong>${paciente.nombres} ${paciente.apellido}</strong><br>DNI: ${paciente.dni}<br>✉️ ${paciente.email}`;
+                  const textoHTML = texto.replace(/\n/g, "<br>");
+
+                  confirmar(textoHTML, "Confirmar selección").then(respuesta => {
+                      if (respuesta) {
+                          onPacienteSeleccionado(paciente.idPaciente, paciente);
+                      }
+                  });
+
+
                   buscarInput.value = "";
                   resultadosList.innerHTML = "";
                 }, 100);
@@ -96,7 +104,11 @@ function BuscarPacientes(onPacienteSeleccionado) {
 
   buscarInput.addEventListener("input", buscarInput._handler);
 }
+
 </script>
 
+<script src="../js/confirmar.js"></script>
+
 </body>
+
 </html>
