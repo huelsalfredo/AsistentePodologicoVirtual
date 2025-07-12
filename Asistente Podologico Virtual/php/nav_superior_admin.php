@@ -49,17 +49,16 @@ if (!isset($_SESSION['paciente']) || $_SESSION['rol'] !== 'administrador') {
                         Pacientes
                     </a>
                     <div class="dropdown-menu">
-                        <div><a class="dropdown-item" href="listado.php">Listado Gral.</a></div>
                         <div>
                         <a href="#" 
                             onclick="BuscarPacientes(function(id, paciente) {
                                 window.location.href = 'pantalla_paciente.php?idPaciente=' + id;
-                            });"
-                            
+                            });"                            
                             class="dropdown-item">
-                            Por Paciente
+                            Seleccionar Paciente
                         </a>
                         </div>
+                        <div><a class="dropdown-item" href="listado.php">Listado Total</a></div>
                         <div><a class="dropdown-item" href="calendarioTurnos.php">Listado de Turnos</a></div>
                     </div>
                 </div>
