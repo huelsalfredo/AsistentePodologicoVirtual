@@ -1,3 +1,35 @@
+<?php
+
+session_start();
+
+include 'conexion_be.php';
+
+if (isset($_GET['idPaciente'])) {
+    $_SESSION['id_paciente'] = $_GET['idPaciente'];
+
+    // Busca datos del paciente
+    $stmt = $conexion->prepare("SELECT nombres, apellido FROM paciente WHERE idPaciente = :idPaciente");
+    $stmt->bindParam(':idPaciente', $_GET['idPaciente']);
+    $stmt->execute();
+    $paciente = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($paciente) {
+        $_SESSION['nombre_paciente'] = $paciente['nombres'] . ' ' . $paciente['apellido'];
+        $_SESSION['modo_admin'] = true; // Marca que es el administrador usando la vista de paciente
+    }
+}
+
+if (!isset($_SESSION['id_paciente'])) {
+    echo '<script src="../js/alerta.js"></script>;
+          <script>alerta("Debes iniciar sesión", "index.php");</script>';
+    exit;
+}
+
+$id_paciente = $_SESSION['id_paciente'];
+
+// include 'nav_superior_paciente.php';
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

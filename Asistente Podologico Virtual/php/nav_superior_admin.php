@@ -53,8 +53,9 @@ if (!isset($_SESSION['paciente']) || $_SESSION['rol'] !== 'administrador') {
                         <div>
                         <a href="#" 
                             onclick="BuscarPacientes(function(id, paciente) {
-                                window.location.href = 'calendarioPaciente.php?idPaciente=' + id;
-                            });" 
+                                window.location.href = 'pantalla_paciente.php?idPaciente=' + id;
+                            });"
+                            
                             class="dropdown-item">
                             Por Paciente
                         </a>
