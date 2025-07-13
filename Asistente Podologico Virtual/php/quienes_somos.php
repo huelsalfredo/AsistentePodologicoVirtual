@@ -55,10 +55,15 @@
             <div class="col card mx-1 animate__animated animate__backInRight animate__delay-2s bc-blue-18">
                 <div class="card-body fondoClaro">
                     <div class="text-center">
-                        <h5 class="fs-5 fw-semibold mt-3">Titulos obtenidos</h5>
+                        <h5 class="fs-5 fw-semibold mt-3">Títulos obtenidos</h5>
                         <p class="fs-6"></p>
-                        <p class="fs-6">"Tecnicatura Universitaria en Podología." (Dic/2023)</p>
-                        <p class="fs-6">"Curso en Podología."(Nov/2024)</p>
+                        <p class="fs-7"></p>
+                        <p class="fs-7">"Tecnicatura Universitaria en Podología UNL." (Dic/2023)</p>
+                        <p class="fs-7">Tec.Pdga. Ma. Fernanda Ríos - Mat. Prof. N° 1722. del Colegio de Podólogos de la Pcia. de Santa Fe 1ra. Circunscripción.</p>                                                
+                        <p class="fs-7">Curso de Post-grado de actualización y perfeccionamiento: "Anestésicos locales en podología en el marco de la ley 13.283-12. UNL"(Nov/2024)</p>
+                        <p class="fs-7">Curso de Post-grado de actualización y perfeccionamiento teórico-práctico: "Abordaje integral y evaluación integral del pie: exploración del pie con una visión holística y repercuciones en la postura global. UNL"(Jul/2024)</p>
+                        <p class="fs-7">"Taller de Curación en pie diabético y el rol del podólogo."(Mayo/2025)</p>
+                        <p class="fs-7">"Taller de Alta Frecuencia y su uso en la podología."(Mayo/2025)</p>
                     </div>
                 </div>
             </div>    
