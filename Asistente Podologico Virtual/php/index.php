@@ -70,12 +70,13 @@
                 <!---------- Formulario de registro ------------>
                 <form action="registro_paciente_be.php" id="formulario__registrar" method = "POST" class="formulario__registrar">
                     <h2>Registrarse</h2>
-                    <input type="text" placeholder="Apellido" name = "apellido" required>
-                    <input type="text" placeholder="Nombre completo" name = "nombres" required>                   
-                    <input type="text" placeholder="Correo Electrónico" name = "email" required>
-                    <input type="text" placeholder="Nro. Celular (Sin 0 y sin 15)" name = "celular">
-                    <input type="text" placeholder="D.N.I." name = "dni" required>
-                    <input type="date" placeholder="Su fecha de nacimiento" name = "fechaNac" required>
+                    <input type="text" placeholder="Apellido" name="apellido" required title="Apellido">
+
+                    <input type="text" placeholder="Nombre completo" name = "nombres" required title="Nombres">                   
+                    <input type="text" placeholder="Correo Electrónico" name = "email" required title="Correo Electrónico">
+                    <input type="text" placeholder="Nro. Celular (Sin 0 y sin 15)" name = "celular" required title="Nro. de Celular">
+                    <input type="text" placeholder="D.N.I." name = "dni" required title="D.N.I.">
+                    <input type="date" placeholder="Su fecha de nacimiento" name = "fechaNac" required title="Fecha de Nacimiento">
 
                     <div class="input-contenedor-pass" style="display: flex; align-items: center;">
                         <input type="password" placeholder="Contraseña" name="contrasena" id="password" required minlength="6" maxlength="15" style="flex: 1; height: 35px;">
@@ -113,20 +114,74 @@
 
     <script>
         document.getElementById("formulario__registrar").addEventListener("submit", function(event) {
-            var pass = document.getElementById("password").value;
-            var pass2 = document.getElementById("password2").value;
-            var errorMessage = document.getElementById("error-message");
-            if (pass !== pass2) {
-                event.preventDefault(); // Evitar el envío normal del formulario
+            const dniInput = document.querySelector('input[name="dni"]');
+            const emailInput = document.querySelector('input[name="email"]');
+            const celularInput = document.querySelector('input[name="celular"]');
+            const pass1Input = document.getElementById("password");
+            const pass2Input = document.getElementById("password2");
+            const errorMessage = document.getElementById("error-message");
+
+            const dni = dniInput.value.trim();
+            const email = emailInput.value.trim();
+            const celular = celularInput.value.trim();
+            const pass1 = pass1Input.value;
+            const pass2 = pass2Input.value;
+
+            // Expresiones regulares
+            const dniRegex = /^\d{8}$/;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const celularRegex = /^[1-9]\d{7,11}$/;
+
+            // Validación de DNI
+            if (!dniRegex.test(dni)) {
+                event.preventDefault();
+                errorMessage.innerText = "El DNI debe contener exactamente 8 dígitos numéricos.";
+                errorMessage.style.color = "red";
+                dniInput.focus();
+                return;
+            }
+
+            // Validación de correo
+            if (!emailRegex.test(email)) {
+                event.preventDefault();
+                errorMessage.innerText = "Ingrese un correo electrónico válido.";
+                errorMessage.style.color = "red";
+                emailInput.focus();
+                return;
+            }
+
+            // Validación de celular
+            if (celular !== "" && !celularRegex.test(celular)) {
+                event.preventDefault();
+                errorMessage.innerText = "El celular debe tener entre 8 y 12 dígitos y no comenzar con 0.";
+                errorMessage.style.color = "red";
+                celularInput.focus();
+                return;
+            }
+
+            // Validación de contraseñas
+            if (pass1 !== pass2) {
+                event.preventDefault();
                 errorMessage.innerText = "Las contraseñas no coinciden.";
                 errorMessage.style.color = "red";
-            } else {
-                errorMessage.innerText = "_";
-                errorMessage.style.color = "white"; 
-            }     
+                pass2Input.focus();
+                return;
+            }
+
+            if (pass1.length < 6 || pass1.length > 15) {
+                event.preventDefault();
+                errorMessage.innerText = "La contraseña debe tener entre 6 y 15 caracteres.";
+                errorMessage.style.color = "red";
+                pass1Input.focus();
+                return;
+            }
+
+            // Todo correcto
+            errorMessage.innerText = "_";
+            errorMessage.style.color = "white";
         });
     </script>
-
+    
     <script>
         function togglePassword(inputId, btn) {
             const input = document.getElementById(inputId);
