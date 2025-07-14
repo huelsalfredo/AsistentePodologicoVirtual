@@ -135,7 +135,7 @@ try {
       locale: 'es',
       allDaySlot: false,
       minTime: "08:00:00",
-      maxTime: "18:00:00",
+      maxTime: "22:00:00",
       slotLabelFormat: 'H:mm',
       slotDuration: '01:00:00',
       slotHeight: 10,

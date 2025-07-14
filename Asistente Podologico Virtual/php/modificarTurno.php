@@ -40,68 +40,26 @@ if (($fechaTurno - $ahora) < 86400) {
   <title>Modificar Turno</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
+  <link rel="stylesheet" href="../Css/estilos2.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/es.js"></script>
 
-  <style>
-    .fc-time-grid .fc-slats td {
-      height: 2.5em !important; /* Altura de las celdas horarias */
-    }
-    .color01 {
-      background-color: rgb(242, 247, 248);
-    }
-    .color02 {
-      background-color: rgb(221, 244, 248);
-    }
-    .color03 {
-      background-color: rgb(248, 241, 204);
-    }
-    .form-check-input {
-      box-shadow: 0 0 0 2px black;      /* crea un borde negro alrededor del checkbox */
-      border: none;                   /* quita el borde nativo para que no interfiera */
-    }
-    .subir-calendario {
-      position: relative;
-      top: -80px;    }
-    body {
-      background-image: url(../Imagenes/asistencia.png);
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-attachment: fixed;      
-    }
-    .fondo {
-      background-image: url(../Imagenes/asistencia.png);
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-attachment: fixed;
-    }
-    .fc-center h2 {
-      padding-top: 15px;
-    }
-    #alertaModal {
-      z-index: 9999 !important;
-    }
-
-  </style>
 </head>
 <body class="bg-ligt>
   <?php include 'nav_superior_paciente.php'; ?>
 
   <div class="modal fade show" id="pacientesModal" tabindex="-1" aria-labelledby="pacientesModalLabel" aria-hidden="true" style="display: block;">
-
     <div class="container fondo">
       <div class="row">
-        
-        <div class="col-12 color01 subir-calendario">
+        <div class="d-none d-lg-block col-lg"></div>
+        <div class="col-12 color01 col-lg-7 subir-calendario">
             <h3 class="text-center">Modificar Turno</h3>
             <p class="text-center">Tu turno actual: <strong><?= date('d/m/Y H:i', strtotime($turno['start'])) ?></strong> (<?= $turno['title'] ?>)</p>
             <div id="CalendarioWeb" class="mt-4"></div>
         </div>
-        
+        <div class="d-none d-lg-block col-lg"></div>
       </div>
     </div>
   </div>
@@ -162,7 +120,7 @@ $('#CalendarioWeb').fullCalendar({
   locale: 'es',
   allDaySlot: false,
   minTime: "08:00:00",
-  maxTime: "18:00:00",
+  maxTime: "22:00:00",
   slotDuration: '01:00:00',
   events: 'turnosTomados.php',
 

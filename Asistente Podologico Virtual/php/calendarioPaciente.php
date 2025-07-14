@@ -85,11 +85,11 @@ try {
   <div class="modal fade show" id="pacientesModal" tabindex="-1" aria-labelledby="pacientesModalLabel" aria-hidden="true" style="display: block;">
     <div class="container fondo">
       <div class="row">
- <!--       <div class="d-none d-lg-block col-lg"></div>-->
-        <div class="col-12 color01 subir-calendario">
+       <div class="d-none d-lg-block col-lg"></div>
+       <div class="col-12 col-lg-7 color01 subir-calendario">
           <div id="CalendarioWeb"></div>
-        </div>
-<!--      <div class="d-none d-lg-block col-lg"></div>-->
+       </div>
+       <div class="d-none d-lg-block col-lg"></div>
       </div>
     </div>
   </div>
@@ -146,7 +146,7 @@ try {
       locale: 'es',
       allDaySlot: false,
       minTime: "08:00:00",
-      maxTime: "18:00:00",
+      maxTime: "22:00:00",
       slotLabelFormat: 'H:mm',
       slotDuration: '01:00:00',
       slotHeight: 10,
