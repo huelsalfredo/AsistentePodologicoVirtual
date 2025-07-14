@@ -16,7 +16,14 @@
     }
     .subir-calendario {
       position: relative;
-      top: -80px;    }
+      top: -25px;    
+    }
+    @media screen and (max-width:640px) {
+      .subir-calendario {
+        position: relative;
+        top: 25px;    
+      }
+    }
     body {
       background-image: url(../Imagenes/asistencia.png);
       background-size: cover;
@@ -37,3 +44,22 @@
     #alertaModal {
       z-index: 99999 !important;
     }
+
+/***** responsive de calendarioTurno ******/
+    @media (max-width: 680px) {
+  .modal-dialog {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    height: 100% !important;
+  }
+
+  .modal-content {
+    height: 100% !important;
+    border-radius: 0 !important;
+  }
+
+  .modal-body {
+    overflow-y: auto;
+  }
+}
