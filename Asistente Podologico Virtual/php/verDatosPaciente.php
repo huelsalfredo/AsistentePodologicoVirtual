@@ -119,74 +119,93 @@ $paciente = $stmt->fetch(PDO::FETCH_ASSOC);
 </div>
 
 <script>
-document.getElementById('formCambioClave').addEventListener('submit', function(event) {
-  event.preventDefault();
+  document.getElementById('formCambioClave').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-  const claveActual = document.getElementById('claveActual').value.trim();
-  const nueva1 = document.getElementById('nuevaClave1').value.trim();
-  const nueva2 = document.getElementById('nuevaClave2').value.trim();
-  const idPaciente = document.querySelector('input[name="idPaciente"]').value;
-  const mensaje = document.getElementById('mensajeError');
+    const claveActual = document.getElementById('claveActual').value.trim();
+    const nueva1 = document.getElementById('nuevaClave1').value.trim();
+    const nueva2 = document.getElementById('nuevaClave2').value.trim();
+    const idPaciente = document.querySelector('input[name="idPaciente"]').value;
+    const mensaje = document.getElementById('mensajeError');
 
-  // Validación inicial
-  if (!claveActual || !nueva1 || !nueva2) {
-    mensaje.textContent = 'Todos los campos son obligatorios.';
-    return;
-  }
+    confirmar("¿Desea guardar los cambios?\n\nEsta acción no se puede deshacer.", "Confirmar guardado")
+    .then(respuesta => {
+      if (!respuesta) {
+        return; // el usuario canceló, cortamos acá
+      }
+      
+      // Validación inicial
+      if (!claveActual || !nueva1 || !nueva2) {
+        mensaje.textContent = 'Todos los campos son obligatorios.';
+        return;
+      }
 
-  if (nueva1 !== nueva2) {
-    mensaje.textContent = 'Las nuevas contraseñas no coinciden.';
-    return;
-  }
+      if (nueva1 !== nueva2) {
+        mensaje.textContent = 'Las nuevas contraseñas no coinciden.';
+        return;
+      }
 
-  // AJAX para validar clave actual
-  fetch('verificar_clave_actual.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: `idPaciente=${encodeURIComponent(idPaciente)}&claveActual=${encodeURIComponent(claveActual)}`
-  })
-  .then(response => response.text())
-  .then(data => {
-    if (data === 'OK') {
-      mensaje.textContent = '';
-
-      const formData = new URLSearchParams();
-      formData.append('idPaciente', idPaciente);
-      formData.append('nuevaClave1', nueva1);
-
-      fetch('cambiar_contrasena.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: formData.toString()
+      // AJAX para validar clave actual
+      fetch('verificar_clave_actual.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `idPaciente=${encodeURIComponent(idPaciente)}&claveActual=${encodeURIComponent(claveActual)}`
       })
       .then(response => response.text())
-      .then(data => { 
-          console.log("Respuesta del servidor:", data); // para ver que devuelve el servidor (borrar)
+      .then(data => {
+        if (data === 'OK') {
+          mensaje.textContent = '';
 
-      if (typeof alerta === "function") {
-        alerta("Clave cambiada con éxito !!!", "pantalla_paciente.php");
-      } else {
-        alert("La función 'alerta' no está definida");
-      }
+          const formData = new URLSearchParams();
+          formData.append('idPaciente', idPaciente);
+          formData.append('nuevaClave1', nueva1);
 
-      if (data === 'OK') {
-          src="../js/alerta.js";
-          alerta("Clave cambiada con éxito !!!","pantalla_paciente.php"); 
-      } else {
-          src="../js/alerta.js";
-          alerta("La clave no pudo ser cambiada");
-      }
-      });  
+          fetch('cambiar_contrasena.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData.toString()
+          })
+          .then(response => response.text())
+          .then(data => { 
+              console.log("Respuesta del servidor:", data); // para ver que devuelve el servidor (borrar)
 
-    } else {
-      mensaje.textContent = 'La contraseña actual no es correcta.';
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    mensaje.textContent = 'Error al validar la contraseña actual.';
+              if (data === 'OK') {
+                  alerta("Clave cambiada con éxito !!!");
+
+                  const modalEl = document.getElementById('modalCambioClave');
+
+                  // 🔄 Restaurar comportamiento normal del modal
+                  modalEl.removeAttribute('data-bs-backdrop');
+                  modalEl.removeAttribute('data-bs-keyboard');
+
+                  // ✅ Cerrar el modal normalmente
+                  const modal = bootstrap.Modal.getInstance(modalEl);
+                  if (modal) {
+                      modal.hide();
+                  }
+
+                  // 🧹 Eliminar manualmente cualquier backdrop que haya quedado
+                  document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+
+                  // 💡 Habilitar scroll e interacción con el fondo si quedó bloqueado
+                  document.body.classList.remove('modal-open');
+                  document.body.style = '';
+
+              } else {
+                  alerta("La clave no pudo ser cambiada");
+              }
+          });  
+
+        } else {
+          mensaje.textContent = 'La contraseña actual no es correcta.';
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        mensaje.textContent = 'Error al validar la contraseña actual.';
+      });
+    });
   });
-});
 </script>
 
 <script>
@@ -217,4 +236,5 @@ function togglePassword(inputId, button) {
 }
 </script>
 <script src="../js/alerta.js"></script>
+<script src="../js/confirmar.js"></script>
 <!-- <script src="../Css/estilos.css"></script> -->
