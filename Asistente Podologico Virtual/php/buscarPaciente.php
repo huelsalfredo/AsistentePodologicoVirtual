@@ -1,3 +1,5 @@
+<!-- ---------------- Archivo buscarPaciente.php --------------------->
+
 <?php
 // Incluir la conexión a la base de datos
 include 'conexion_be.php';
