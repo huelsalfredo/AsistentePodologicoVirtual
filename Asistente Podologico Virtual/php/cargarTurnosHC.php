@@ -36,7 +36,7 @@ $stmt = $conexion->prepare("SELECT t.idTurno, t.start, t.end, t.title, p.nombres
     WHERE t.start < NOW() 
       AND t.id_paciente = :id_paciente
       AND t.idTurno NOT IN (
-        SELECT id_turno FROM HistoriaClinica
+        SELECT id_turno FROM historiaclinica
       )
     ORDER BY t.start DESC");
     $stmt->bindParam(':id_paciente', $id_paciente);
@@ -119,7 +119,7 @@ $stmt = $conexion->prepare("SELECT t.idTurno, t.start, t.end, t.title, p.nombres
       locale: 'es',
       allDaySlot: false,
       minTime: "08:00:00",
-      maxTime: "18:00:00",
+      maxTime: "22:00:00",
       slotLabelFormat: 'H:mm',
       slotDuration: '01:00:00',
       slotHeight: 10,
@@ -159,20 +159,18 @@ $stmt = $conexion->prepare("SELECT t.idTurno, t.start, t.end, t.title, p.nombres
       },
 
     eventClick: function(event) {
-      console.log('Evento clickeado:', event); // 👈 Esto
 
       const ahora = moment();
       const inicioTurno = moment(event.start);
 
       if (inicioTurno.isBefore(ahora)) {
-        document.getElementById('nombrePaciente').innerText = event.nombrePaciente || '';
-        document.getElementById('fechaTurno').innerText = inicioTurno.format('DD/MM/YYYY');
-        document.getElementById('horaTurno').innerText = inicioTurno.format('HH:mm');
+        document.getElementById('nombrePaciente').innerText = event.nombrePaciente || 'No disponible';
+        document.getElementById('idPaciente').innerText = event.idPaciente || '';
+        document.getElementById('idTurno').value = event.id || '';
+        document.getElementById('id_paciente').value = event.idPaciente || ''; 
+        document.getElementById('fechaTurno').innerText = moment(event.start).format('DD/MM/YYYY');
+        document.getElementById('horaTurno').innerText = moment(event.start).format('HH:mm');
         document.getElementById('motivoTurno').innerText = event.title || '';
-        document.getElementById('idTurno').value = event.id;
-
-        document.getElementById('notas').value = '';
-        document.getElementById('tratamiento').value = '';
 
         const modal = new bootstrap.Modal(document.getElementById('modalNotas'));
         modal.show();
@@ -184,10 +182,11 @@ $stmt = $conexion->prepare("SELECT t.idTurno, t.start, t.end, t.title, p.nombres
     });
   </script>
   <script src="../js/alerta.js"></script>
+
   <!-- Modal para turnos anteriores -->
   <div class="modal fade" id="modalNotas" tabindex="-1" aria-hidden="true" C data-bs-keyboard="false">
    <div class="modal-dialog">
-    <form method="POST" action="guardar_historia.php">
+    <form method="POST" action="guardar_Historia.php">
       <div class="modal-content">
         <div class="modal-header bg-info">
           <h5 class="modal-title">Carga de Registro de Consulta</h5>
@@ -195,12 +194,14 @@ $stmt = $conexion->prepare("SELECT t.idTurno, t.start, t.end, t.title, p.nombres
         </div>
         <div class="modal-body">
             <p><strong>Paciente:</strong> <span id="nombrePaciente"></span></p>
+            <p style="display: none;"><strong>id:</strong> <span id="idPaciente"></span></p>            
             <p><strong>Fecha:</strong> <span id="fechaTurno">
             </span> - <strong>Hora:</strong> <span id="horaTurno"></span></p>          
             <p><strong>Motivo:</strong> <span id="motivoTurno"></span></p>
 
             <input type="hidden" name="idTurno" id="idTurno">
-            <input type="hidden" name="id_paciente" value="<?= $id_paciente ?>">
+            <input type="hidden" name="id_paciente" id="id_paciente">
+
             <input type="hidden" name="id_podologo" value="4">
 
             <div class="mb-3">
