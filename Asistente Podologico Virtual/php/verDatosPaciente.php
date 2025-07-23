@@ -1,6 +1,5 @@
-<!-- ---------- Archivo verDatosPaciente.php ----------------->
+<?php // <!-- ---------- Archivo verDatosPaciente.php ----------------->
 
-<?php
 // Primero me aseguro de que la sesión esté iniciada
 if (session_status() === PHP_SESSION_NONE) {
     session_start(); // Si no hay sesión activa, la inicio
@@ -9,26 +8,35 @@ if (session_status() === PHP_SESSION_NONE) {
 // Incluyo el archivo que me da acceso a la base de datos
 include 'conexion_be.php';
 
-// Intento obtener el id del paciente desde la sesión
+// Obtengo el id del paciente y/o del administrador
 $idPaciente = $_SESSION['id_paciente'] ?? null;
+$idAdmin = $_SESSION['id_administrador'] ?? null;
 
-// Si no tengo el id del paciente, muestro un mensaje de error y corto la ejecución
-if (!$idPaciente) {
+// Si no estoy en modo admin y no hay paciente cargado, muestro un error
+if (empty($idPaciente) && empty($_SESSION['modo_admin'])) {
     exit('<div class="alert alert-danger">Paciente no identificado.</div>');
 }
 
-// Preparo la consulta para traer todos los datos del paciente con ese ID
+// Veo si $idPaciente es null o vacío, para usar $idAdmin
+$idConsulta = (!empty($idPaciente)) ? $idPaciente : $idAdmin;
+
+// Preparo la consulta para traer todos los datos desde la tabla paciente
 $stmt = $conexion->prepare("SELECT * FROM paciente WHERE idPaciente = :id");
 
-// Enlazo el parámetro :id con el valor real del id del paciente
-$stmt->bindParam(':id', $idPaciente, PDO::PARAM_INT);
+// Enlazo el parámetro :id con el valor decidido
+$stmt->bindParam(':id', $idConsulta, PDO::PARAM_INT);
 
 // Ejecuto la consulta
 $stmt->execute();
 
 // Guardo el resultado como un array asociativo
 $paciente = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Prueba para depuración
+// echo "<script>console.log('ID del paciente: " . $idPaciente . "');</script>";
+// echo "<script>console.log('ID del admin: " . $idAdmin . "');</script>";
 ?>
+
 
 <!------------------ Modal modalVerDatos ------------------->
 <!-- Defino el contenedor del modal con ID 'modalVerDatos', oculto por defecto (fade), y con backdrop estático para que no se cierre si hago clic fuera -->
