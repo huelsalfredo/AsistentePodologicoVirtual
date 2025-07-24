@@ -1,4 +1,17 @@
 <?php
+session_start();
+if (isset($_SESSION['mensaje'])) {
+    echo '<script src="../js/alerta.js"></script>;
+          <script>alerta("' . $_SESSION['mensaje'] . '");</script>';
+    unset($_SESSION['mensaje']);
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+    exit;
+
+}
+
+?>
+
+<?php
 
 include 'conexion_be.php';
 
@@ -84,7 +97,6 @@ function BuscarPacientes(onPacienteSeleccionado) {
                           onPacienteSeleccionado(paciente.idPaciente, paciente);
                       }
                   });
-
 
                   buscarInput.value = "";
                   resultadosList.innerHTML = "";

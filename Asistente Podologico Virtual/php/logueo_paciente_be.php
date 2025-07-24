@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>Logueo del Paciente</title>
-        <link rel="icon" href="../Imagenes/Pardepies.jpg">
-        <link rel="stylesheet" href="../Css/estilos.css">
-    </head>
-    
-    <body>
-        <!-- Se incluye para poder usar el modal alerta -->
-        <script src="../js/alerta.js"></script>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Logueo del Paciente</title>
+    <link rel="icon" href="../Imagenes/Pardepies.jpg">
+    <link rel="stylesheet" href="../Css/estilos.css">
+</head>
+<body>
+    <!-- Se incluye para poder usar el modal alerta -->
+    <script src="../js/alerta.js"></script>
+</body>
 </html>
 
 <?php
-
 session_start();
-
 include 'conexion_be.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -45,12 +42,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $id_paciente = $datos_paciente['idPaciente'];
 
                 $usuario = $apellido . ", " . $nombres;
+
+                // Guardar datos de sesión comunes
                 $_SESSION['paciente'] = $usuario;
                 $_SESSION['rol'] = $rol;
                 $_SESSION['id_paciente'] = $id_paciente;
 
-                // Redirige según el rol
+                // Si es administrador, guardar también su ID como admin y flag de modo admin
                 if ($rol === "administrador") {
+                    $_SESSION['id_administrador'] = $id_paciente;
+                    $_SESSION['modo_admin'] = true;
                     header("Location: pantalla_administrador.php");
                 } else {
                     header("Location: pantalla_paciente.php");
@@ -83,5 +84,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_destroy();
     die();
 }
-
 ?>

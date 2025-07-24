@@ -33,8 +33,8 @@ $stmt->execute();
 $paciente = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // Prueba para depuración
-// echo "<script>console.log('ID del paciente: " . $idPaciente . "');</script>";
-// echo "<script>console.log('ID del admin: " . $idAdmin . "');</script>";
+echo "<script>console.log('ID del paciente: " . $idPaciente . "');</script>";
+echo "<script>console.log('ID del admin: " . $idAdmin . "');</script>";
 ?>
 
 
@@ -331,6 +331,88 @@ $paciente = $stmt->fetch(PDO::FETCH_ASSOC);
     });
   });
 </script>
+
+<!-- <script>
+  // Se agrega un listener para capturar el envío del formulario y evitar que recargue la página
+  document.getElementById('formBlanqueoClave').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita el envío normal del formulario
+
+    // Se obtienen los valores de los campos del formulario
+    const nueva1 = document.getElementById('nuevaClave1').value.trim();
+    const nueva2 = document.getElementById('nuevaClave2').value.trim();
+    const idPaciente = document.querySelector('input[name="idPaciente"]').value;
+    const mensaje = document.getElementById('mensajeError'); // Elemento para mostrar errores
+
+    // Se muestra una ventana de confirmación antes de continuar
+    confirmar("¿Desea guardar los cambios?\n\nEsta acción no se puede deshacer.", "Confirmar guardado")
+    .then(respuesta => {
+      if (!respuesta) {
+        return; // El usuario canceló la confirmación, se interrumpe la ejecución
+      }
+      
+      // Validación básica: verificar que los campos no estén vacíos
+      if (!nueva1 || !nueva2) {
+        mensaje.textContent = 'Todos los campos son obligatorios.';
+        return;
+      }
+
+      // Validar que las dos nuevas contraseñas coincidan
+      if (nueva1 !== nueva2) {
+        mensaje.textContent = 'Las nuevas contraseñas no coinciden.';
+        return;
+      }
+
+      // Se prepara el nuevo valor para enviar al servidor
+      const formData = new URLSearchParams();
+      formData.append('idPaciente', idPaciente);
+      formData.append('nuevaClave1', nueva1);
+
+      // Se realiza la solicitud para cambiar la contraseña
+      fetch('cambiar_contrasena.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
+      })
+      .then(response => response.text())
+      .then(data => { 
+          console.log("Respuesta del servidor:", data); // Debug (puede quitarse)
+
+          if (data === 'OK') {
+              alerta("Clave cambiada con éxito !!!"); // Mensaje positivo
+
+              // Se obtiene la referencia al modal actual
+              const modalEl = document.getElementById('modalBlanqueoClave');
+
+              // Se restablecen los atributos que bloquean el fondo del modal
+              modalEl.removeAttribute('data-bs-backdrop');
+              modalEl.removeAttribute('data-bs-keyboard');
+
+              // Se cierra el modal con Bootstrap
+              const modal = bootstrap.Modal.getInstance(modalEl);
+              if (modal) {
+                  modal.hide(); // Oculta el modal
+              }
+
+              // Elimina cualquier fondo de modal que haya quedado
+              document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+
+              // Restaura el estado del scroll en el body
+              document.body.classList.remove('modal-open');
+              document.body.style = '';
+
+          } else {
+              alerta("La clave no pudo ser cambiada"); // Error del servidor
+          }
+      });  
+
+      })
+      .catch(error => {
+        // En caso de error en la petición, se informa al usuario
+        console.error('Error:', error);
+        mensaje.textContent = 'Error al validar la contraseña actual.';
+      });
+    });
+</script> -->
 
 <!-- 
   FUNCIÓN togglePassword SIMPLE:
