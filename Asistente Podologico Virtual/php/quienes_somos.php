@@ -60,8 +60,8 @@
                         <p class="fs-7"></p>
                         <p class="fs-7">"Tecnicatura Universitaria en Podología UNL." (Dic/2023)</p>
                         <p class="fs-7">Tec.Pdga. Ma. Fernanda Ríos - Mat. Prof. N° 1722. del Colegio de Podólogos de la Pcia. de Santa Fe 1ra. Circunscripción.</p>                                                
-                        <p class="fs-7">Curso de Post-grado de actualización y perfeccionamiento: "Anestésicos locales en podología en el marco de la ley 13.283-12. UNL"(Nov/2024)</p>
                         <p class="fs-7">Curso de Post-grado de actualización y perfeccionamiento teórico-práctico: "Abordaje integral y evaluación integral del pie: exploración del pie con una visión holística y repercuciones en la postura global. UNL"(Jul/2024)</p>
+                        <p class="fs-7">Curso de Post-grado de actualización y perfeccionamiento: "Anestésicos locales en podología en el marco de la ley 13.283-12. UNL"(Nov/2024)</p>
                         <p class="fs-7">"Taller de Curación en pie diabético y el rol del podólogo."(Mayo/2025)</p>
                         <p class="fs-7">"Taller de Alta Frecuencia y su uso en la podología."(Mayo/2025)</p>
                     </div>
