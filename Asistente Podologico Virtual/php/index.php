@@ -1,12 +1,23 @@
 <?php
 
     session_start();
-    if(isset($_SESSION['paciente'])){        
-        header ("location: pantalla_paciente.php");
-        
- //   } else if (!isset($_SESSION['paciente']) || $_SESSION['rol'] !== 'administrador')  {
- //       header ("location: index.php");
+    
+    if (isset($_SESSION['paciente'])) {
+        header("Location: pantalla_paciente.php");
+        exit;
     }
+
+    if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador') {
+        header("Location: pantalla_administrador.php");
+        exit;
+    }
+
+    // if (isset($_SESSION['paciente'], $_SESSION['rol'])) {
+    //     echo "Paciente: {$_SESSION['paciente']} y su rol es {$_SESSION['rol']}";
+    // } else {
+    //     echo "Sesión no iniciada correctamente - index.php";
+    // }
+
 ?>
 
 <!DOCTYPE html>
@@ -22,15 +33,19 @@
 </head>
 
 <body>
-    <nav class="nav-container">
-        <div>
-           <a href="#" class="nav-item">Turnero Podológico</a>
-        </div>
-        <div class="nav-right">
-           <a href="quienes_somos.php" class="nav-item">Quienes somos</a>  
-        </div>
-    </nav> 
+<nav class="nav-container" style="padding: 0px 80px 0px 10px;">
+    <div style="display: flex; align-items: center;">
+        
+        <a href="#" class="nav-item">
+            <img src="../Imagenes/Logo.jpg" alt="Logo" style="height:52px;  width: auto">
 
+        <a href="#" class="nav-item">Turnero Podológico</a>
+        </a>
+    </div>
+    <div class="nav-right">
+        <a href="quienes_somos.php" class="nav-item">Quienes somos</a>  
+    </div>
+</nav>
     <main>
         <div class="contenedor__todo">
             
@@ -68,12 +83,13 @@
                 </form>
 
                 <!---------- Formulario de registro ------------>
-                <form action="registro_paciente_be.php" id="formulario__registrar" method = "POST" class="formulario__registrar">
+                <form id="formulario__registrar" class="formulario__registrar">
+
                     <h2>Registrarse</h2>
                     <input type="text" placeholder="Apellido" name="apellido" required title="Apellido">
 
                     <input type="text" placeholder="Nombre completo" name = "nombres" required title="Nombres">                   
-                    <input type="text" placeholder="Correo Electrónico" name = "email" required title="Correo Electrónico">
+                    <input type="text" placeholder="Correo Electrónico" name = "correo" required title="Correo Electrónico">
                     <input type="text" placeholder="Nro. Celular (Sin 0 y sin 15)" name = "celular" required title="Nro. de Celular">
                     <input type="text" placeholder="D.N.I." name = "dni" required title="D.N.I.">
                     <input type="date" placeholder="Su fecha de nacimiento" name = "fechaNac" required title="Fecha de Nacimiento">
@@ -112,74 +128,99 @@
 
     <script src="../js/scripts.js"></script>
 
-    <script>
-        document.getElementById("formulario__registrar").addEventListener("submit", function(event) {
-            const dniInput = document.querySelector('input[name="dni"]');
-            const emailInput = document.querySelector('input[name="email"]');
-            const celularInput = document.querySelector('input[name="celular"]');
-            const pass1Input = document.getElementById("password");
-            const pass2Input = document.getElementById("password2");
-            const errorMessage = document.getElementById("error-message");
+<script>
+    document.getElementById("formulario__registrar").addEventListener("submit", async function(event) {
+        event.preventDefault();
 
-            const dni = dniInput.value.trim();
-            const email = emailInput.value.trim();
-            const celular = celularInput.value.trim();
-            const pass1 = pass1Input.value;
-            const pass2 = pass2Input.value;
+        const dniInput = document.querySelector('input[name="dni"]');
+        const emailInput = document.querySelector('input[name="correo"]');
+        const celularInput = document.querySelector('input[name="celular"]');
+        const pass1Input = document.getElementById("password");
+        const pass2Input = document.getElementById("password2");
+        const errorMessage = document.getElementById("error-message");
 
-            // Expresiones regulares
-            const dniRegex = /^\d{8}$/;
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const celularRegex = /^[1-9]\d{7,11}$/;
+        const dni = dniInput.value.trim();
+        const email = emailInput.value.trim();
+        const celular = celularInput.value.trim();
+        const pass1 = pass1Input.value;
+        const pass2 = pass2Input.value;
 
-            // Validación de DNI
-            if (!dniRegex.test(dni)) {
-                event.preventDefault();
-                errorMessage.innerText = "El DNI debe contener exactamente 8 dígitos numéricos.";
+        const dniRegex = /^\d{8}$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const celularRegex = /^[1-9]\d{7,11}$/;
+
+        // Validación de DNI
+        if (!dniRegex.test(dni)) {
+            errorMessage.innerText = "El DNI debe contener exactamente 8 dígitos numéricos.";
+            errorMessage.style.color = "red";
+            dniInput.focus();
+            return;
+        }
+
+        // Validación de correo
+        if (!emailRegex.test(email)) {
+            errorMessage.innerText = "Ingrese un correo electrónico válido.";
+            errorMessage.style.color = "red";
+            emailInput.focus();
+            return;
+        }
+
+        // Validación de número de celular
+        if (celular !== "" && !celularRegex.test(celular)) {
+            errorMessage.innerText = "El celular debe tener entre 8 y 12 dígitos y no comenzar con 0.";
+            errorMessage.style.color = "red";
+            celularInput.focus();
+            return;
+        }
+
+        // Validación que las contraseñas sean iguales
+        if (pass1 !== pass2) {
+            errorMessage.innerText = "Las contraseñas no coinciden.";
+            errorMessage.style.color = "red";
+            pass2Input.focus();
+            return;
+        }
+
+        // Validación del largo de la contraseña
+        if (pass1.length < 6 || pass1.length > 15) {
+            errorMessage.innerText = "La contraseña debe tener entre 6 y 15 caracteres.";
+            errorMessage.style.color = "red";
+            pass1Input.focus();
+            return;
+        }
+
+        // Limpiar mensaje de error
+        errorMessage.innerText = "_";
+        errorMessage.style.color = "white";
+
+        // Recolectar datos del formulario
+        const formData = new FormData(document.getElementById("formulario__registrar"));
+
+        try {
+            const response = await fetch("registroPaciente.php", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.text();
+
+            if (response.ok) {
+                if (result.includes("Registro exitoso")) {
+                    alerta("Paciente almacenado con éxito", "index.php");
+                } else {
+                    alerta("No se pudo registrar el paciente. Intente nuevamente.", "index.php");
+                }
+            } else {
+                errorMessage.innerText = "Ocurrió un error en el servidor.";
                 errorMessage.style.color = "red";
-                dniInput.focus();
-                return;
             }
 
-            // Validación de correo
-            if (!emailRegex.test(email)) {
-                event.preventDefault();
-                errorMessage.innerText = "Ingrese un correo electrónico válido.";
-                errorMessage.style.color = "red";
-                emailInput.focus();
-                return;
-            }
-
-            // Validación de celular
-            if (celular !== "" && !celularRegex.test(celular)) {
-                event.preventDefault();
-                errorMessage.innerText = "El celular debe tener entre 8 y 12 dígitos y no comenzar con 0.";
-                errorMessage.style.color = "red";
-                celularInput.focus();
-                return;
-            }
-
-            // Validación de contraseñas
-            if (pass1 !== pass2) {
-                event.preventDefault();
-                errorMessage.innerText = "Las contraseñas no coinciden.";
-                errorMessage.style.color = "red";
-                pass2Input.focus();
-                return;
-            }
-
-            if (pass1.length < 6 || pass1.length > 15) {
-                event.preventDefault();
-                errorMessage.innerText = "La contraseña debe tener entre 6 y 15 caracteres.";
-                errorMessage.style.color = "red";
-                pass1Input.focus();
-                return;
-            }
-
-            // Todo correcto
-            errorMessage.innerText = "_";
-            errorMessage.style.color = "white";
-        });
+        } catch (error) {
+            console.error("Error:", error);
+            errorMessage.innerText = "No se pudo enviar el formulario. Verifique su conexión.";
+            errorMessage.style.color = "red";
+        }
+    });
     </script>
     
     <script>
@@ -198,6 +239,6 @@
             }
         }
     </script>
-
+    <script src="../js/alerta.js"></script>
 </body>
 </html>
