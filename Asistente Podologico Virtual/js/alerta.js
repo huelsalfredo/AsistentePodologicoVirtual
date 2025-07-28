@@ -28,7 +28,7 @@ function alerta(mensaje, urlRedireccion = null) {
 
     // Crear el mensaje dentro del modal
     const message = document.createElement("p");
-    message.textContent = mensaje; // Establecer el texto del mensaje
+    message.innerHTML = mensaje; // Establecer el texto del mensaje
 
     // Crear el botón "OK"
     const okButton = document.createElement("button");
@@ -59,5 +59,3 @@ function alerta(mensaje, urlRedireccion = null) {
     modal.appendChild(modalContent); // Añadir el contenido al modal
     document.body.appendChild(modal); // Añadir el modal al cuerpo del documento
 }
-
-
