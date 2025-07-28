@@ -11,7 +11,7 @@
 <script src="../js/alerta.js"></script>
 
     <script>
-        alerta("No es posible resetear su clave... Por favor, contáctese con el administrador...", "index.php");
+        alerta("No es posible resetear automaticamente su clave...<br><br> Por favor, contáctese con el administrador...", "index.php");
     </script>
 
 </body>

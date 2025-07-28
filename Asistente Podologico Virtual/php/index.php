@@ -64,13 +64,13 @@
             <!---------- Formularios de logueo y registro ------------>
             <div class="contenedor__loguear-registrar">
 
-                <!---------- Formulario de logueo ------------>
-                <form action="logueo_paciente_be.php" method="POST" class="formulario__loguear">
+                <!---------- Formulario de logueo de Paciente y/o Admin ------------>
+                <form action="logueoPaciente.php" method="POST" class="formulario__loguear">
                     <h2>Iniciar sesión</h2>
                     <input type="text" placeholder="Correo Electrónico" name = "email" required>
 
                     <div class="input-contenedor-pass" style="display: flex; align-items: center;">
-                        <input type="password" placeholder="Contraseña" name="contrasena" id="password1" required minlength="6" maxlength="15" style="flex: 1; height: 35px;">
+                        <input type="password" placeholder="Contraseña" name="contrasena" id="password1" style="flex: 1; height: 35px;">
                         <button type="button" onclick="togglePassword('password1', this)" style="background: white; border: 1px solid #ccc; border-left: none; color: #007bff; height: 30px; margin-top: 10px; padding: 0 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
                             <i class="bi bi-eye-slash"></i>
                         </button>
@@ -82,12 +82,11 @@
                     <button type="submit">Ingresar</button>
                 </form>
 
-                <!---------- Formulario de registro ------------>
+                <!---------- Formulario de registro del Paciente ------------>
                 <form id="formulario__registrar" class="formulario__registrar">
 
                     <h2>Registrarse</h2>
                     <input type="text" placeholder="Apellido" name="apellido" required title="Apellido">
-
                     <input type="text" placeholder="Nombre completo" name = "nombres" required title="Nombres">                   
                     <input type="text" placeholder="Correo Electrónico" name = "correo" required title="Correo Electrónico">
                     <input type="text" placeholder="Nro. Celular (Sin 0 y sin 15)" name = "celular" required title="Nro. de Celular">
@@ -149,14 +148,6 @@
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const celularRegex = /^[1-9]\d{7,11}$/;
 
-        // Validación de DNI
-        if (!dniRegex.test(dni)) {
-            errorMessage.innerText = "El DNI debe contener exactamente 8 dígitos numéricos.";
-            errorMessage.style.color = "red";
-            dniInput.focus();
-            return;
-        }
-
         // Validación de correo
         if (!emailRegex.test(email)) {
             errorMessage.innerText = "Ingrese un correo electrónico válido.";
@@ -170,6 +161,14 @@
             errorMessage.innerText = "El celular debe tener entre 8 y 12 dígitos y no comenzar con 0.";
             errorMessage.style.color = "red";
             celularInput.focus();
+            return;
+        }
+
+        // Validación de DNI
+        if (!dniRegex.test(dni)) {
+            errorMessage.innerText = "El DNI debe contener exactamente 8 dígitos numéricos.";
+            errorMessage.style.color = "red";
+            dniInput.focus();
             return;
         }
 
