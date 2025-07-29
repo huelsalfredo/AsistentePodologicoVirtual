@@ -25,107 +25,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../Imagenes/Pardepies.jpg">
     <title>Asistente Podológico Virtual</title>
+    <link rel="icon" href="../Imagenes/Pardepies.jpg">
+    
     <link rel="stylesheet" href="../Css/estilos.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .modal-custom {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-body input {
+            margin-bottom: 10px;
+        }
+        .toggle-password-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+        }
+        .modal-footer .btn-link {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .position-relative {
+            position: relative;
+        }
+        
+        /* Fondo del modal */
+        .form-container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px 25px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 14px;
+        }
+
+        /* Título del formulario */
+        .form-container h2 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #005a9e;
+            margin-bottom: 15px;
+        }
+
+        /* Texto de instrucciones */
+        .form-container p {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        /* Etiquetas de los campos */
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        /* Inputs y selects */
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container input[type="password"],
+        .form-container input[type="date"] {
+            width: 100%;
+            padding: 3px 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        /* Placeholder gris claro */
+        .form-container input::placeholder {
+            color: #888;
+        }
+
+        /* Botón de registrarse */
+        .form-container button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #0078d4;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button[type="submit"]:hover {
+            background-color: #005fa3;
+        }
+
+        /* Texto inferior (inicia sesión) */
+        .form-container .form-footer {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .form-container .form-footer a {
+            color: #005a9e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+    </style>
 </head>
 
 <body>
-<nav class="nav-container" style="padding: 0px 80px 0px 10px;">
-    <div style="display: flex; align-items: center;">
-        
-        <a href="#" class="nav-item">
-            <img src="../Imagenes/Logo.jpg" alt="Logo" style="height:52px;  width: auto">
-
-        <a href="#" class="nav-item">Turnero Podológico</a>
-        </a>
-    </div>
-    <div class="nav-right">
-        <a href="quienes_somos.php" class="nav-item">Quienes somos</a>  
-    </div>
-</nav>
-    <main>
-        <div class="contenedor__todo">
+    <nav class="nav-container" style="padding: 0px 80px 0px 10px;">
+        <div style="display: flex; align-items: center;">
             
-            <div class="caja__trasera">
-                <div class="caja__trasera-loguear">
-                    <h3>¿Ya tienen una cuenta?</h3>
-                    <p>Inicia sesion para sacar tu turno</p>
-                    <button id="btn__iniciar-sesion">Iniciar sesión</button>
-                </div>
-                <div class="caja__trasera-registrar">                
-                    <h3>¿Aún no tiene una cuenta?</h3>
-                    <p>Registrate para que puedas iniciar sesión</p>
-                    <button id="btn__registrarse">Registrarse</button>
-                </div>
+            <a href="#" class="nav-item">
+                <img src="../Imagenes/Logo.jpg" alt="Logo" style="height:52px;  width: auto">
+                <a href="#" class="nav-item">Turnero Podológico</a>
+            </a>
+        </div>
+        <div class="nav-right">
+            <a href="quienes_somos.php" class="nav-item">Quienes somos</a>  
+        </div>
+    </nav>
+
+    <!-- Botón para abrir modal de logueo -->
+    <script>
+        window.onload = () => {
+            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+        }
+    </script>
+
+    <!---------------- Modal de Logueo ---------------------->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow rounded">
+        <div class="modal-header text-white" style="background-color: #007bff;">
+            <h5 class="modal-title mx-auto">Inicia sesión</h5>
+            <!-- <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button> -->
+        </div>
+
+        <form action="logueoPaciente.php" method="POST">
+            <div class="modal-body text-center p-4">
+            <img src="../Imagenes/Logo.jpg" alt="Logo" style="max-height: 50px; margin-bottom: 10px;">
+            <div class="mb-3">
+                <input type="email" name="email" class="form-control" placeholder="Correo electrónico" required>
             </div>
-            <!---------- Formularios de logueo y registro ------------>
-            <div class="contenedor__loguear-registrar">
+            <div class="mb-3 position-relative">
+                <input type="password" name="contrasena" class="form-control" id="loginPass" placeholder="Contraseña" required>
+                <button type="button" class="toggle-password-btn" onclick="togglePassword('loginPass', this)">
+                <i class="bi bi-eye-slash"></i>
+                </button>
+            </div>
+            <div class="text-end">
+                <a href="olvidoPass.php" class="text-decoration-none small">¿Olvidó su contraseña?</a>
+            </div>
+            <div class="d-grid mt-3">
+                <button type="submit" class="btn btn-primary">Inicia sesión</button>
+            </div>
 
-                <!---------- Formulario de logueo de Paciente y/o Admin ------------>
-                <form action="logueoPaciente.php" method="POST" class="formulario__loguear">
-                    <h2>Iniciar sesión</h2>
-                    <input type="text" placeholder="Correo Electrónico" name = "email" required>
+            <div class="mt-4 text-muted small">
+                <i class="bi bi-person-circle"></i> ¿Necesita ayuda? Envíe un correo a:  
+                <br><strong>customer.service.esperanza@gmail.com</strong>
+            </div>
+            </div>
 
-                    <div class="input-contenedor-pass" style="display: flex; align-items: center;">
-                        <input type="password" placeholder="Contraseña" name="contrasena" id="password1" style="flex: 1; height: 35px;">
-                        <button type="button" onclick="togglePassword('password1', this)" style="background: white; border: 1px solid #ccc; border-left: none; color: #007bff; height: 30px; margin-top: 10px; padding: 0 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                            <i class="bi bi-eye-slash"></i>
-                        </button>
+            <div class="modal-footer justify-content-center">
+            <span class="small">¿No es un miembro? <a href="#" class="fw-bold text-primary" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal">Registrarse</a></span>
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+
+    <!-------------------- Modal de Registro ------------------------->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header text-white" style="background-color: #007bff;>
+                    <h5 class="modal-title">Registrarse</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+         
+                <div class="form-container">
+                    <h2>Registro</h2>
+                    <p>
+                        Llena el siguiente formulario y luego haz clic en el botón 'Registrarse'.
+                        Recibirás un correo de confirmación registro. Los campos con * son obligatorios.
+                        Cualquier problema con tu proceso de registro, por favor, contáctanos 
+                        <br><strong>customer.service.esperanza@gmail.com</strong>
+                    </p>
+                    <form id="formulario__registrar" method="POST" action="registroPaciente.php">
+                        <label for="apellido">Apellido *</label>
+                        <input type="text" id="apellido" name="apellido" placeholder="Apellido" required>
+
+                        <label for="nombre">Nombres *</label>
+                        <input type="text" id="nombres" name="nombres" placeholder="Nombres" required>
+
+                        <label for="correo">Correo electrónico *</label>
+                        <input type="text" id="correo" name="correo" placeholder="Correo electrónico" required>
+
+                        <label for="celular">Nro. de Celular *</label>
+                        <input type="text" placeholder="Nro. Celular (Sin 0 y sin 15)" name = "celular" required title="Nro. de Celular">
+                        
+                        <label for="dni">D.N.I. *</label>
+                        <input type="text" placeholder="D.N.I." name = "dni" required title="D.N.I.">
+                        
+                        <label for="fechaNac">Fecha de Nacimiento *</label>
+                        <input type="date" placeholder="Su fecha de nacimiento" name = "fechaNac" required title="Fecha de Nacimiento">
+
+                        <!-- Contraseña -->
+                        <label for="password">Contraseña *</label>
+                        <div class="mb-3 position-relative">
+                            <input type="password" placeholder="Contraseña" name="contrasena" id="password" class="form-control" required minlength="6" maxlength="15">
+                            <button type="button" class="toggle-password-btn" onclick="togglePassword('password', this)">
+                                <i class="bi bi-eye-slash"></i>
+                            </button>
+                        </div>
+
+                        <!-- Reingrese Contraseña -->
+                        <label for="password2">Reingrese su Contraseña *</label>
+                        <div class="mb-3 position-relative">
+                            <input type="password" placeholder="Reingrese Contraseña" name="contrasena2" id="password2" class="form-control" required minlength="6" maxlength="15">
+                            <button type="button" class="toggle-password-btn" onclick="togglePassword('password2', this)">
+                                <i class="bi bi-eye-slash"></i>
+                            </button>
+                        </div>
+
+                        <button type="submit">Registrarse</button>
+                    </form>
+
+                    <div class="form-footer">
+                        ¿Ya tienes una cuenta? <a href="index.php">Inicia sesión</a>
                     </div>
-
-                    <div style="text-center; margin-bottom: -10px;">
-                        <a href="olvidoPass.php" style="font-size: 0.9em; color: #0066cc; text-decoration: underline;">¿Olvidó su contraseña?</a>
-                    </div>
-                    <button type="submit">Ingresar</button>
-                </form>
-
-                <!---------- Formulario de registro del Paciente ------------>
-                <form id="formulario__registrar" class="formulario__registrar">
-
-                    <h2>Registrarse</h2>
-                    <input type="text" placeholder="Apellido" name="apellido" required title="Apellido">
-                    <input type="text" placeholder="Nombre completo" name = "nombres" required title="Nombres">                   
-                    <input type="text" placeholder="Correo Electrónico" name = "correo" required title="Correo Electrónico">
-                    <input type="text" placeholder="Nro. Celular (Sin 0 y sin 15)" name = "celular" required title="Nro. de Celular">
-                    <input type="text" placeholder="D.N.I." name = "dni" required title="D.N.I.">
-                    <input type="date" placeholder="Su fecha de nacimiento" name = "fechaNac" required title="Fecha de Nacimiento">
-
-                    <div class="input-contenedor-pass" style="display: flex; align-items: center;">
-                        <input type="password" placeholder="Contraseña" name="contrasena" id="password" required minlength="6" maxlength="15" style="flex: 1; height: 35px;">
-                        <button type="button" onclick="togglePassword('password', this)" style="background: white; border: 1px solid #ccc; border-left: none; color: #007bff; height: 30px; margin-top: 10px; padding: 0 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                            <i class="bi bi-eye-slash"></i>
-                        </button>
-                    </div>
-
-                    <div class="input-contenedor-pass" style="display: flex; align-items: center;">
-                        <input type="password" placeholder="Reingrese Contraseña" name="contrasena2" id="password2" required minlength="6" maxlength="15" style="flex: 1; height: 35px;">
-                        <button type="button" onclick="togglePassword('password2', this)" style="background: white; border: 1px solid #ccc; border-left: none; color: #007bff; height: 30px; margin-top: 10px; padding: 0 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                            <i class="bi bi-eye-slash"></i>
-                        </button>
-                    </div>
-                    
-                    <script>
-                        function togglePassword(id) {
-                            const passwordInput = document.getElementById(id);
-                            if (passwordInput.type === "password") {
-                                passwordInput.type = "text";
-                            } else {
-                                passwordInput.type = "password";
-                            }
-                        }
-                    </script>
-                    <div class="error-message" id="error-message">_</div>
-
-                    <button type="submit">Registrarse</button>  
-                </form>
+                </div>
             </div>
         </div>
-    </main>    
+    </div>
 
-    <script src="../js/scripts.js"></script>
+    <script>
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/alerta.js"></script>
+</body>
+</html>
 
 <script>
     document.getElementById("formulario__registrar").addEventListener("submit", async function(event) {
@@ -150,47 +316,53 @@
 
         // Validación de correo
         if (!emailRegex.test(email)) {
-            errorMessage.innerText = "Ingrese un correo electrónico válido.";
-            errorMessage.style.color = "red";
+            alert("Ingrese un correo electrónico válido.");
+            emailInput.focus();
+            return;
+        } 
+
+        const emailExiste = await existeEnBD("email", email);
+        if (emailExiste === "existe") {
+            alert("El correo ya está registrado.");
             emailInput.focus();
             return;
         }
 
         // Validación de número de celular
         if (celular !== "" && !celularRegex.test(celular)) {
-            errorMessage.innerText = "El celular debe tener entre 8 y 12 dígitos y no comenzar con 0.";
-            errorMessage.style.color = "red";
+            alert("El celular debe tener entre 8 y 12 dígitos numéricos y no comenzar con 0.");     
             celularInput.focus();
             return;
-        }
+        } 
 
         // Validación de DNI
         if (!dniRegex.test(dni)) {
-            errorMessage.innerText = "El DNI debe contener exactamente 8 dígitos numéricos.";
-            errorMessage.style.color = "red";
+            alert("El DNI debe contener exactamente 8 dígitos numéricos.");
+            dniInput.focus();
+            return;
+        } 
+
+        const dniExiste = await existeEnBD("dni", dni);
+        if (dniExiste === "existe") {
+            alert("El DNI ya está registrado.");
             dniInput.focus();
             return;
         }
 
         // Validación que las contraseñas sean iguales
         if (pass1 !== pass2) {
-            errorMessage.innerText = "Las contraseñas no coinciden.";
-            errorMessage.style.color = "red";
+            alert("Las contraseñas no coinciden.");
             pass2Input.focus();
             return;
         }
 
         // Validación del largo de la contraseña
         if (pass1.length < 6 || pass1.length > 15) {
-            errorMessage.innerText = "La contraseña debe tener entre 6 y 15 caracteres.";
+            alert("La contraseña debe tener entre 6 y 15 caracteres.");
             errorMessage.style.color = "red";
             pass1Input.focus();
             return;
         }
-
-        // Limpiar mensaje de error
-        errorMessage.innerText = "_";
-        errorMessage.style.color = "white";
 
         // Recolectar datos del formulario
         const formData = new FormData(document.getElementById("formulario__registrar"));
@@ -216,12 +388,26 @@
 
         } catch (error) {
             console.error("Error:", error);
-            errorMessage.innerText = "No se pudo enviar el formulario. Verifique su conexión.";
-            errorMessage.style.color = "red";
+            alert("No se pudo enviar el formulario. Verifique su conexión.");
         }
     });
     </script>
-    
+
+    <script>
+        const existeEnBD = async (tipo, valor) => {
+            const form = new FormData();
+            form.append("tipo", tipo);
+            form.append("valor", valor);
+
+            const response = await fetch("verificarUsuario.php", {
+                method: "POST",
+                body: form
+            });
+
+            return await response.text();
+        };
+    </script>
+
     <script>
         function togglePassword(inputId, btn) {
             const input = document.getElementById(inputId);
@@ -238,6 +424,6 @@
             }
         }
     </script>
-    <script src="../js/alerta.js"></script>
+    <!-- <script src="../js/alerta.js"></script> -->
 </body>
 </html>

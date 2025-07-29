@@ -15,26 +15,26 @@ $fechaNac = $_POST['fechaNac'];
 $contrasena = hash('sha512', $_POST['contrasena']);
 
 try {
-    // Verifico si el email ya está registrado
-    // Busco en la tabla paciente una fila donde el dni coincida con el valor que paso, pero solo hago devolver el número 1 y no toda la fila
-    $stmt = $conexion->prepare("SELECT 1 FROM paciente WHERE email = :email"); 
-    $stmt->bindParam(':email', $email);
-    $stmt->execute();
+    // // Verifico si el email ya está registrado
+    // // Busco en la tabla paciente una fila donde el dni coincida con el valor que paso, pero solo hago devolver el número 1 y no toda la fila
+    // $stmt = $conexion->prepare("SELECT 1 FROM paciente WHERE email = :email"); 
+    // $stmt->bindParam(':email', $email);
+    // $stmt->execute();
 
-    if ($stmt->rowCount() > 0) {
-        echo "El correo ya se encuentra registrado.";
-        exit;
-    }
+    // if ($stmt->rowCount() > 0) {
+    //     echo "El correo ya se encuentra registrado.";
+    //     exit;
+    // }
 
-    // Verifico si el DNI ya está registrado
-    $stmt = $conexion->prepare("SELECT 1 FROM paciente WHERE dni = :dni");
-    $stmt->bindParam(':dni', $dni);
-    $stmt->execute();
+    // // Verifico si el DNI ya está registrado
+    // $stmt = $conexion->prepare("SELECT 1 FROM paciente WHERE dni = :dni");
+    // $stmt->bindParam(':dni', $dni);
+    // $stmt->execute();
 
-    if ($stmt->rowCount() > 0) {
-        echo "El DNI ya se encuentra registrado.";
-        exit;
-    }
+    // if ($stmt->rowCount() > 0) {
+    //     echo "El DNI ya se encuentra registrado.";
+    //     exit;
+    // }
 
     // Inserto nuevo paciente
     $stmt = $conexion->prepare("INSERT INTO paciente (apellido, nombres, email, celular, dni, fechaNac, contrasena) 
